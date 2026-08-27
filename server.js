@@ -2,7 +2,8 @@ const http = require('node:http');
 
 const route_404 = require('./routes/_404');
 const routeUser = require('./routes/user');
-const getAllUsers = require('./routes/allUsers')
+const getAllUsers = require('./routes/allUsers');
+const createUser = require('./routes/createUser');
 
 const newServer = http.createServer(async function (req, res) {
 
@@ -13,18 +14,21 @@ const newServer = http.createServer(async function (req, res) {
 
     const url = req.url;
 
-    switch (url) {
-        case '/users':
-            await getAllUsers(req, res);
-            break;
- default:
-        if (url.startsWith('/user/')) {
-            await routeUser(req, res);
-        } else {
-            route_404(req, res);
-        }
-        break;
+
+    if (req.method === 'GET' && url == '/users') {
+        await getAllUsers(req, res);
     }
+    else if (req.method === 'GET' && url.startsWith('/user/')) {
+        await routeUser(req, res);
+    }
+    else if (req.method === 'POST' && url=='/user') {
+        await createUser(req,res);
+    }
+
+    else {
+        route_404(req, res);
+    }
+
     return;
 })
 

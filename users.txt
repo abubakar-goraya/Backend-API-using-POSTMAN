@@ -3,3 +3,4 @@ Ali;Ham;15
 Ali;Hza;19
 Ali;Haza;24
 Ali;Hmza;54
+FRED;DRIK;99
