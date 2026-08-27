@@ -1,6 +1,3 @@
 Ali;Hamza;14
 Faris;Ham;33
 KHAN;Hza;41
-Ali;Haza;24
-Ali;Hmza;54
-FRED;DRIK;99
