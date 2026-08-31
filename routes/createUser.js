@@ -13,28 +13,24 @@ const createUser = async (req, res) => {
 
         const newUser = JSON.parse(body);
 
-        const allUsersText = await fs.readFile(
-            path.resolve(__dirname, '../users.txt'),
-            'utf8'
-        );
+        const allUsersText = await fs.readFile(path.resolve(__dirname, '../users.txt'), 'utf8');
 
         const allUsers = allUsersText.split('\r\n');
-
-        const newUserLine =
-            `${newUser.firstName};${newUser.lastName};${newUser.age}`;
+        newUser.firstName = String(newUser.firstName).replace(/;/g, "");
+        newUser.lastName = String(newUser.lastName).replace(/;/g, "");
+        newUser.age = (newUser.age).replace(/;/g, '');
+        const newUserLine = `${newUser.firstName};${newUser.lastName};${newUser.age}`;
 
         allUsers.push(newUserLine);
 
-        await fs.writeFile(
-            path.resolve(__dirname, '../users.txt'),
-            allUsers.join('\r\n')
-        );
+        await fs.writeFile(path.resolve(__dirname, '../users.txt'), allUsers.join('\r\n'));
 
         res.setHeader('Content-Type', 'application/json');
         res.statusCode = 201;
-
+        const newUserId = allUsers.length;
         res.end(JSON.stringify({
             message: 'User created and added',
+            id: newUserId,
             user: newUser
         }));
     });
