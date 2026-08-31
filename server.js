@@ -6,6 +6,7 @@ const getAllUsers = require('./routes/allUsers');
 const createUser = require('./routes/createUser');
 const updateUser = require('./routes/updateUser');
 const deleteUser = require('./routes/deleteUser');
+const updateUser2=require('./routes/updateUser2');
 
 const newServer = http.createServer(async function (req, res) {
 
@@ -31,6 +32,9 @@ const newServer = http.createServer(async function (req, res) {
     }
     else if (req.method === 'DELETE' && url.startsWith('/user/')) {
         await deleteUser(req, res);
+    }
+        else if (req.method === 'PUT' && url.startsWith('/user/')) {
+        await updateUser2(req, res);
     }
     else {
         route_404(req, res);

@@ -3,4 +3,4 @@ Faris;Ham;33
 KHAN;Hza;41
 Harry;Riyz;29;kk;9
 Paul;Laym;20
-Lee;Ulong;52
+Lee;Ulong;49
