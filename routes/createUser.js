@@ -18,7 +18,7 @@ const createUser = async (req, res) => {
         const allUsers = allUsersText.split('\r\n');
         newUser.firstName = String(newUser.firstName).replace(/;/g, "");
         newUser.lastName = String(newUser.lastName).replace(/;/g, "");
-        newUser.age = (newUser.age).replace(/;/g, '');
+        newUser.age = Number(String(newUser.age).replace(/;/g, ''));
         const newUserLine = `${newUser.firstName};${newUser.lastName};${newUser.age}`;
 
         allUsers.push(newUserLine);
