@@ -1,7 +1,6 @@
 Ali;Hamza;14
 Faris;Ham;33
 KHAN;Hza;41
-Harry;Riyz;29;kk;9
 Paul;Laym;20
 Lee;Ulong;49
-Mark;Selby;38
+Mark;Selby;48

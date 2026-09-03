@@ -14,7 +14,7 @@ const updateUser = async (req, res) => {
         const updateData = JSON.parse(body);
         //this is just a shortcut for path
         const filePath = path.resolve(__dirname, '../users.txt');
-        
+
 
         const allUsersText = await fs.readFile(filePath, 'utf8');
         const allUsers = allUsersText.split('\r\n');
@@ -33,20 +33,27 @@ const updateUser = async (req, res) => {
         };
 
         const split = allUsers[id - 1].split(';');
+
+
+
+
         if (updateData.firstName !== undefined) {
+            updateData.firstName = String(updateData.firstName).replace(/;/g, "");
             split[0] = updateData.firstName;
         }
         if (updateData.lastName !== undefined) {
+            updateData.lastName = String(updateData.lastName).replace(/;/g, "");
             split[1] = updateData.lastName;
         }
         if (updateData.age !== undefined) {
+            updateData.age = Number(String(updateData.age).replace(/;/g, ''));
             split[2] = updateData.age;
         }
         allUsers[id - 1] = split.join(';');
 
         await fs.writeFile(filePath, allUsers.join('\r\n'));
 
-        res.setHeader('Content-Type','application/json');
+        res.setHeader('Content-Type', 'application/json');
 
         res.end(JSON.stringify({
             message: "USER UPDATED SUCCESSFULLY"
