@@ -21,7 +21,7 @@ export function openDb() {
                 )
             `);
 
-            return db;
+            return db ;
         });
 
     }
