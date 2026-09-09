@@ -1,5 +1,5 @@
-const fs = require('fs/promises');
-const path = require('path');
+import fs from 'fs/promises';
+import path from 'path';
 
 const getUser = async (req, res) => {
     const allUsersText = await fs.readFile(path.resolve(__dirname, '../users.txt'), 'utf8');
@@ -34,4 +34,4 @@ const getUser = async (req, res) => {
     res.end(JSON.stringify(response));
 }
 
-module.exports = getUser;
+export default getUser;

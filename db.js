@@ -1,30 +1,40 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
-let dbPromise;
+const db = await open({
+    filename: './db.sqlite',
+    driver: sqlite3.Database
+});
 
-export function openDb() {
+await db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        firstName TEXT,
+        lastName TEXT,
+        age INTEGER
+    )
+`);
 
-    if (!dbPromise) {
+const count = await db.get('SELECT COUNT(*) AS count FROM users');
 
-        dbPromise = open({
-            filename: './db.sqlite',
-            driver: sqlite3.Database
-        }).then(async db => {
+if (count.count === 0) {
 
-            await db.exec(`
-                CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    firstName TEXT,
-                    lastName TEXT,
-                    age INTEGER
-                )
-            `);
+    await db.run(
+        `INSERT INTO users (firstName, lastName, age)
+         VALUES (?, ?, ?),
+                (?, ?, ?),
+                (?, ?, ?),
+                (?, ?, ?),
+                (?, ?, ?),
+                (?, ?, ?)`,
+        'Ali', 'Hamza', 14,
+        'Faris', 'Ham', 33,
+        'KHAN', 'Hza', 41,
+        'Paul', 'Laym', 20,
+        'Lee', 'Ulong', 49,
+        'Mark', 'Selby', 48
+    );
 
-            return db;
-        });
-
-    }
-
-    return dbPromise;
 }
+
+export default db;

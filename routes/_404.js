@@ -3,4 +3,4 @@ const _404=function(req,res){
     return;
 }
 
-module.exports= _404;
+export default _404;

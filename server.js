@@ -1,11 +1,11 @@
-const http = require('node:http');
+import http from 'node:http';
 
-const route_404 = require('./routes/_404');
-const routeUser = require('./routes/user');
-const getAllUsers = require('./routes/allUsers');
-const createUser = require('./routes/createUser');
-const updateUser = require('./routes/updateUser');
-const deleteUser = require('./routes/deleteUser');
+import route_404 from './routes/_404.js';
+import routeUser from './routes/user.js';
+import getAllUsers from './routes/allUsers.js';
+import createUser from './routes/createUser.js';
+import updateUser from './routes/updateUser.js';
+import deleteUser from './routes/deleteUser.js';
 
 const newServer = http.createServer(async function (req, res) {
 
@@ -13,9 +13,7 @@ const newServer = http.createServer(async function (req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-
     const url = req.url;
-
 
     if (req.method === 'GET' && url == '/users') {
         await getAllUsers(req, res);
@@ -32,7 +30,7 @@ const newServer = http.createServer(async function (req, res) {
     else if (req.method === 'DELETE' && url.startsWith('/user/')) {
         await deleteUser(req, res);
     }
-        else if (req.method === 'PUT' && url.startsWith('/user/')) {
+    else if (req.method === 'PUT' && url.startsWith('/user/')) {
         await updateUser(req, res);
     }
     else {
@@ -40,6 +38,6 @@ const newServer = http.createServer(async function (req, res) {
     }
 
     return;
-})
+});
 
 newServer.listen(4001);

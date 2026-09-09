@@ -1,5 +1,5 @@
-const fs = require('fs/promises');
-const path = require('path');
+import fs from 'fs/promises';
+import path from 'path';
 
 const updateUser = async (req, res) => {
 
@@ -61,4 +61,4 @@ const updateUser = async (req, res) => {
     });
 };
 
-module.exports = updateUser;
+export default updateUser;

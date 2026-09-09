@@ -1,5 +1,5 @@
-const fs = require('fs/promises');
-const path = require('path');
+import fs from 'fs/promises';
+import path from 'path';
 
 const createUser = async (req, res) => {
 
@@ -36,4 +36,4 @@ const createUser = async (req, res) => {
     });
 };
 
-module.exports = createUser;
+export default createUser;

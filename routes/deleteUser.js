@@ -1,5 +1,5 @@
-const fs = require('fs/promises');
-const path = require('path');
+import fs from 'fs/promises';
+import path from 'path';
 
 const deleteUser = async (req, res) => {
 
@@ -34,5 +34,4 @@ const deleteUser = async (req, res) => {
         message: "USER DELETED SUECCFULLY !!"
     }));
 };
-
-module.exports = deleteUser;
+export default deleteUser;
