@@ -1,5 +1,4 @@
-import fs from 'fs/promises';
-import path from 'path';
+import db from '../db.js';
 
 const createUser = async (req, res) => {
 
@@ -13,24 +12,18 @@ const createUser = async (req, res) => {
 
         const newUser = JSON.parse(body);
 
-        const allUsersText = await fs.readFile(path.resolve(__dirname, '../users.txt'), 'utf8');
-
-        const allUsers = allUsersText.split('\r\n');
-        newUser.firstName = String(newUser.firstName).replace(/;/g, "");
-        newUser.lastName = String(newUser.lastName).replace(/;/g, "");
-        newUser.age = Number(String(newUser.age).replace(/;/g, ''));
-        const newUserLine = `${newUser.firstName};${newUser.lastName};${newUser.age}`;
-
-        allUsers.push(newUserLine);
-
-        await fs.writeFile(path.resolve(__dirname, '../users.txt'), allUsers.join('\r\n'));
-
+        newUser.firstName = String(newUser.firstName);
+        newUser.lastName = String(newUser.lastName);
+        newUser.age = Number(String(newUser.age));
+        
+        const result=await db.run(`INSERT INTO users (firstName,lastName,age)
+                                                VALUES(?,?,?)`, newUser.firstName,newUser.lastName,newUser.age);
         res.setHeader('Content-Type', 'application/json');
         res.statusCode = 201;
-        const newUserId = allUsers.length;
+
         res.end(JSON.stringify({
             message: 'User created and added',
-            id: newUserId,
+            id: result.lastID,
             user: newUser
         }));
     });
