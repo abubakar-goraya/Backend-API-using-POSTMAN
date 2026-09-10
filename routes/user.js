@@ -16,7 +16,7 @@ const getUser = async (req, res) => {
         return;
     }
 
-    res.setHeader('Content-Type', ' application/json');
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(user));
 };
 
