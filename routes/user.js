@@ -1,37 +1,23 @@
-import fs from 'fs/promises';
-import path from 'path';
+import db from '../db.js';
 
 const getUser = async (req, res) => {
-    const allUsersText = await fs.readFile(path.resolve(__dirname, '../users.txt'), 'utf8');
-    const allUsers = allUsersText.split('\r\n');
 
-    console.log(JSON.stringify(req.url, null, 2, false))
+    console.log(JSON.stringify(req.url));
+
     const id = req.url.split('/')[2];
 
+    const user = await db.get('SELECT * FROM users WHERE id = ?', id);
 
-    let user = null;
-    if (allUsers[id - 1] !== undefined) {
-        user = allUsers[id - 1];
-        console.log(user);
-    }
-
-    if (user === null) {
+    if (!user) {
         res.setHeader('Content-Type', 'application/json');
-        res.statusCode=404;
-        res.end(JSON.stringify({
-            message: 'user not found'
-        }));
+        res.statusCode = 404;
+
+        res.end(JSON.stringify({ message: 'user not found' }));
         return;
-    }
-    const split = user.split(";");
-    const response = {
-        firstName: split[0],
-        lastName: split[1],
-        age: Number(split[2])
     }
 
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(response));
-}
+    res.end(JSON.stringify(user));
+};
 
 export default getUser;
