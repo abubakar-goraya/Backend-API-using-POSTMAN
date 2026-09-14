@@ -1,5 +1,4 @@
-import fs from 'fs/promises';
-import path from 'path';
+import db from '../db.js';
 
 const updateUser = async (req, res) => {
 
@@ -11,53 +10,51 @@ const updateUser = async (req, res) => {
     });
 
     req.on('end', async () => {
+
         const updateData = JSON.parse(body);
-        //this is just a shortcut for path
-        const filePath = path.resolve(__dirname, '../users.txt');
 
+        const user = await db.get('SELECT * FROM users WHERE id = ?', id);
 
-        const allUsersText = await fs.readFile(filePath, 'utf8');
-        const allUsers = allUsersText.split('\r\n');
-
-        if (allUsers[id - 1] === undefined) {
+        if (user === undefined) {
             res.statusCode = 404;
 
             res.setHeader(
-                'Content-Type', 'application/json'
+                'Content-Type',
+                'application/json'
             );
 
             res.end(JSON.stringify({
-                message: "USER NOT FOUND !!"
+                message: 'USER NOT FOUND !!'
             }));
+
             return;
-        };
-
-        const split = allUsers[id - 1].split(';');
-
-
-
+        }
 
         if (updateData.firstName !== undefined) {
-            updateData.firstName = String(updateData.firstName).replace(/;/g, "");
-            split[0] = updateData.firstName;
+            updateData.firstName = String(updateData.firstName);
         }
-        if (updateData.lastName !== undefined) {
-            updateData.lastName = String(updateData.lastName).replace(/;/g, "");
-            split[1] = updateData.lastName;
-        }
-        if (updateData.age !== undefined) {
-            updateData.age = Number(String(updateData.age).replace(/;/g, ''));
-            split[2] = updateData.age;
-        }
-        allUsers[id - 1] = split.join(';');
 
-        await fs.writeFile(filePath, allUsers.join('\r\n'));
+        if (updateData.lastName !== undefined) {
+            updateData.lastName = String(updateData.lastName);
+        }
+
+        if (updateData.age !== undefined) {
+            updateData.age = Number(updateData.age);
+        }
+
+        const result = await db.run(`UPDATE users
+                    SET firstName = COALESCE(?, firstName),
+                        lastName = COALESCE(?, lastName),
+                        age = COALESCE(?, age)
+                        WHERE id = ?`,
+            updateData.firstName,
+            updateData.lastName,
+            updateData.age,
+            id);
 
         res.setHeader('Content-Type', 'application/json');
 
-        res.end(JSON.stringify({
-            message: "USER UPDATED SUCCESSFULLY"
-        }));
+        res.end(JSON.stringify({ message: 'USER UPDATED SUCCESSFULLY !!' }));
     });
 };
 
