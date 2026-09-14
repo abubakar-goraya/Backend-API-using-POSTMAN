@@ -1,17 +1,12 @@
-import fs from 'fs/promises';
-import path from 'path';
+import db from "../db.js";
 
 const deleteUser = async (req, res) => {
 
     const id = Number(req.url.split('/')[2]);
 
-    const filePath = path.resolve(__dirname, '../users.txt');
+    const user = await db.get('select * from users where id=?', id);
 
-    const allUsersText = await fs.readFile(filePath, 'utf8');
-
-    const allUsers = allUsersText.split('\r\n');
-
-    if (allUsers[id - 1] === undefined) {
+    if (user === undefined) {
 
         res.statusCode = 404;
 
@@ -24,14 +19,12 @@ const deleteUser = async (req, res) => {
         return;
     }
 
-    allUsers.splice(id - 1, 1);
+    const result = await db.run('Delete from users where id=?',id);
 
-    await fs.writeFile(filePath, allUsers.join('\r\n'));
-
-    res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Type', 'application/json');
 
     res.end(JSON.stringify({
-        message: "USER DELETED SUECCFULLY !!"
+        message: `USER ${id} DELETED SUECCFULLY !!`
     }));
 };
 export default deleteUser;
