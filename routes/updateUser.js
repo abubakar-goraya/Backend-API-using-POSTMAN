@@ -30,17 +30,9 @@ const updateUser = async (req, res) => {
             return;
         }
 
-        if (updateData.firstName !== undefined) {
-            updateData.firstName = String(updateData.firstName);
-        }
-
-        if (updateData.lastName !== undefined) {
-            updateData.lastName = String(updateData.lastName);
-        }
-
-        if (updateData.age !== undefined) {
+     
             updateData.age = Number(updateData.age);
-        }
+        
 
         const result = await db.run(`UPDATE users
                     SET firstName = COALESCE(?, firstName),
