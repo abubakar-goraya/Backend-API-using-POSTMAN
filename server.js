@@ -17,7 +17,7 @@ const newServer = http.createServer(async function (req, res) {
 
     const url = req.url;
 
-    if (req.method === 'GET' && (url === '/' || url==='/crud.html')) {
+    if (req.method === 'GET' && (url === '/' || url === '/crud.html')) {
 
         const html = await fs.readFile(
             path.resolve('./public/crud.html'),
@@ -42,7 +42,7 @@ const newServer = http.createServer(async function (req, res) {
 
         return;
     }
-    else  if (req.method === 'GET' && url === '/create.html') {
+    else if (req.method === 'GET' && url === '/create.html') {
 
         const html = await fs.readFile(
             path.resolve('./public/create.html'),
@@ -54,7 +54,7 @@ const newServer = http.createServer(async function (req, res) {
 
         return;
     }
-    
+
 
     else if (req.method === 'GET' && url == '/users') {
         await getAllUsers(req, res);
