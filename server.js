@@ -1,4 +1,6 @@
 import http from 'node:http';
+import fs from 'fs/promises';
+import path from 'path';
 
 import route_404 from './routes/_404.js';
 import routeUser from './routes/user.js';
@@ -15,7 +17,46 @@ const newServer = http.createServer(async function (req, res) {
 
     const url = req.url;
 
-    if (req.method === 'GET' && url == '/users') {
+    if (req.method === 'GET' && (url === '/' || url==='/crud.html')) {
+
+        const html = await fs.readFile(
+            path.resolve('./public/crud.html'),
+            'utf8'
+        );
+
+        res.setHeader('Content-Type', 'text/html');
+        res.end(html);
+
+        return;
+    }
+
+    else if (req.method === 'GET' && url === '/app.js') {
+
+        const js = await fs.readFile(
+            path.resolve('app.js'),
+            'utf8'
+        );
+
+        res.setHeader('Content-Type', 'text/javascript');
+        res.end(js);
+
+        return;
+    }
+    else  if (req.method === 'GET' && url === '/create.html') {
+
+        const html = await fs.readFile(
+            path.resolve('./public/create.html'),
+            'utf8'
+        );
+
+        res.setHeader('Content-Type', 'text/html');
+        res.end(html);
+
+        return;
+    }
+    
+
+    else if (req.method === 'GET' && url == '/users') {
         await getAllUsers(req, res);
     }
     else if (req.method === 'GET' && url.startsWith('/user/')) {
@@ -41,3 +82,4 @@ const newServer = http.createServer(async function (req, res) {
 });
 
 newServer.listen(4001);
+

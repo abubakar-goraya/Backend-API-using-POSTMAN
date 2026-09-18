@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD-API</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+
+<body class="bg-gray-100 min-h-screen p-8">
+
+    <p id="message" class="text-center text-green-600 font-semibold mb-4"></p>
+
+    <h1 class="text-3xl font-bold text-center mb-8">USERS MANAGEMENT SYSTEM</h1>
+    <div class="flex justify-center gap-4 ">
+        <a href="create.html"><button class="bg-blue-300 hover:bg-blue-400 rounded-lg px-3 py-2">Create</button></a>
+        <button class="bg-purple-300 hover:bg-purple-400 rounded-lg px-3 py-2">Search by FirstName</button>
+    </div>
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+
+        <table class="w-full border-collapse">
+
+            <thead>
+                <tr class="bg-gray-800 text-white">
+                    <th class="p-3 text-center">ID</th>
+                    <th class="p-3 text-center">FirstName</th>
+                    <th class="p-3 text-center">LastName</th>
+                    <th class="p-3 text-center">Age</th>
+                    <th class="p-3 text-center">Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="usersTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script src="../app.js"></script>
+
+</body>
+
+</html>
